@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyber Chat</title>
+  </head>
+  <body>
+    <main>
+      <h1>Cyber Chat</h1>
+      <form id="form-messages">
+        <input type="text" id="input-messages" />
+        <button type="submit">Gửi</button>
+        <button type="button" id="btn-share-location">Gui vi tri</button>
+      </form>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.12.1/qs.min.js"
+      integrity="sha512-vuLOE4Fh9lfxaN9n81Vl1HwrqMYz9WKoNmsHNC7Hz7OWX4k4O7FjCyQ1tQ82RJExao+Fas40RLiS5PCfVRGgnQ=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/client-chat.js">
+      // socket.on("send count server to client", (count) => {
+      //   document.getElementById("value-count").innerHTML = count;
+      // });
+
+      // socket.on("send message server to client", (messages) => {
+      //   console.log("messages: " + messages);
+      // });
+
+      // document.getElementById("btn-increment").addEventListener("click", () => {
+      //   socket.emit("send increment client to server");
+      // });
+    </script>
+  </body>
+</html>
