@@ -6,13 +6,25 @@ const {
   updateStation,
   deleteStation,
 } = require("../controllers/station.controller");
+const { authenticate } = require("../middlewares/auth/authenticate");
+const { authorize } = require("../middlewares/auth/authorize");
 
 const stationRouter = express.Router();
 
-stationRouter.post("/", createStation);
+stationRouter.post(
+  "/",
+  authenticate,
+  authorize(["ADMIN", "SUPPERADMIN"]),
+  createStation
+);
 stationRouter.get("/", getAllStations);
 stationRouter.get("/:id", getStationById);
 stationRouter.put("/:id", updateStation);
-stationRouter.delete("/:id", deleteStation);
+stationRouter.delete(
+  "/:id",
+  authenticate,
+  authorize(["ADMIN", "SUPPERADMIN"]),
+  deleteStation
+);
 
 module.exports = { stationRouter };

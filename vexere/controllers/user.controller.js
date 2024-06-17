@@ -1,54 +1,53 @@
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const gravatarUrl = require("gravatar-url");
+const gravatar = require("gravatar");
+
 const register = async (req, res) => {
   const { name, email, password, numberPhone } = req.body;
   try {
-    // tạo avatar mặc định
-    const avatarUrl = gravatarUrl(email);
-    // tạo ra một chuỗi ngẫu nhiên
+    const avatarURL = gravatar.url(email, { protocol: "https", s: "100" });
+    console.log(avatarURL);
+    //tao ra mot chuoi ngau nhien
     const salt = bcrypt.genSaltSync(10);
-    // mã hóa salt + password
+    // ma hoa salt + password
     const hashPassword = bcrypt.hashSync(password, salt);
     const newUser = await User.create({
       name,
       email,
       password: hashPassword,
       numberPhone,
-      avatar: avatarUrl,
+      avatar: avatarURL,
     });
     res.status(201).send(newUser);
-  } catch (error) {
-    res.status(500).send(error);
+  } catch (err) {
+    res.status(500).send(err);
   }
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  // b1 : tìm ra user đang đăng nhập dựa trên trên email
+
   const user = await User.findOne({
     where: {
       email,
     },
   });
-  if (user) {
-    // b2 : kiểm mật khẩu có đúng hay không
 
+  if (user) {
     const isAuth = bcrypt.compareSync(password, user.password);
-    console.log("isAuth : ", isAuth);
     if (isAuth) {
       const token = jwt.sign(
         { email: user.email, type: user.type },
-        "tuong-tinh-2350",
+        "cong-huu-1709",
         { expiresIn: 60 * 60 }
       );
-      res.status(200).send({ message: "Đăng Nhập Thành Công ! ", token });
+      res.status(200).send({ message: "Đăng nhập thành công!", token });
     } else {
-      res.status(500).send({ message: "Tài khoãng hoặc mật khẩu không đúng" });
+      res.status(500).send({ message: "Mật khẩu sai!" });
     }
   } else {
-    res.status(404).send({ message: "Không tìm thấy email phù hợp" });
+    res.status(404).send({ message: "Không tìm thấy email!" });
   }
 };
 
